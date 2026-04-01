@@ -622,43 +622,50 @@ $(window).on("load", function (event) {
 
 })(jQuery);
 
+
 //========== TIMER ============= //
- // TIMER //
- 
+
 function startCountdown(targetDate, daysId, hoursId, minutesId, secondsId) {
   var countdownFunction = setInterval(function () {
       var now = new Date().getTime();
       var distance = targetDate - now;
 
+      // Time calculations
       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
       var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      document.getElementById(daysId).innerHTML = days + " <span>DAYS</span>";
-      document.getElementById(hoursId).innerHTML = hours + " <span>Hours</span>";
-      document.getElementById(minutesId).innerHTML = minutes + " <span>Minutes</span>";
-      document.getElementById(secondsId).innerHTML = seconds + " <span>Seconds</span>";
+      // Add leading zeros
+      days = days < 10 ? "0" + days : days;
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
 
+      // Update HTML with labels
+      document.getElementById(daysId).innerHTML = days + " <span>DAYS</span>";
+      document.getElementById(hoursId).innerHTML = hours + " <span>HOURS</span>";
+      document.getElementById(minutesId).innerHTML = minutes + " <span>MINUTES</span>";
+      document.getElementById(secondsId).innerHTML = seconds + " <span>SECONDS</span>";
+
+      // When countdown ends
       if (distance < 0) {
           clearInterval(countdownFunction);
-          document.getElementById(daysId).innerHTML = "00";
-          document.getElementById(hoursId).innerHTML = "00";
-          document.getElementById(minutesId).innerHTML = "00";
-          document.getElementById(secondsId).innerHTML = "00";
-          alert("Countdown Ended");
+          document.getElementById(daysId).innerHTML = "00 <span>DAYS</span>";
+          document.getElementById(hoursId).innerHTML = "00 <span>HOURS</span>";
+          document.getElementById(minutesId).innerHTML = "00 <span>MINUTES</span>";
+          document.getElementById(secondsId).innerHTML = "00 <span>SECONDS</span>";
       }
   }, 1000);
 }
 
-var targetDate = new Date();
-targetDate.setDate(targetDate.getDate() + 119);
-targetDate.setHours(targetDate.getHours() + 22);
-targetDate.setMinutes(targetDate.getMinutes() + 18);
-targetDate.setSeconds(targetDate.getSeconds() + 44);
+// Fixed deadline (IMPORTANT)
+var targetDate = new Date("May 29, 2026 23:59:59").getTime();
 
+// Start countdown (you can reuse for multiple timers)
 startCountdown(targetDate, "days", "hours", "minutes", "seconds");
 startCountdown(targetDate, "days1", "hours1", "minutes1", "seconds1");
+
 
 
 //========== GSAP AREA ============= //
